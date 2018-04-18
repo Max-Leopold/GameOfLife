@@ -2,27 +2,25 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("setSize.fxml"));
-        Parent root = loader.load();
-        SetSizeController controller = loader.getController();
-        controller.setPrimaryStage(primaryStage);
-        primaryStage.setTitle("Set Playground Size");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
-    }
-
-
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("Max");
+        Scene scene = new Scene(root, 750, 600);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
     }
 }
