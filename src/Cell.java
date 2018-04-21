@@ -13,16 +13,9 @@ public class Cell extends JPanel {
 
         zustand = r.nextBoolean();
 
-        /*if(!zustand){
-            setBackground(Color.BLACK);
-        }
-        else {
-            setBackground(Color.GREEN);
-        }*/
+        setBackground(new Color(30, 30, 30));
 
-
-
-        setBorder(BorderFactory.createLineBorder(Color.RED, 1, false));
+        setBorder(BorderFactory.createLineBorder(new Color(129, 129, 129)));
 
     }
 
@@ -32,6 +25,19 @@ public class Cell extends JPanel {
 
     public int getLebendigeNachbarn() {
         return lebendigeNachbarn;
+    }
+
+    public void changeState(){
+        zustand = !zustand;
+    }
+
+    public void update(){
+        if(!zustand){
+            setBackground(new Color(30, 30, 30));
+        }
+        else{
+            setBackground(new Color(129, 129, 129));
+        }
     }
 
 }

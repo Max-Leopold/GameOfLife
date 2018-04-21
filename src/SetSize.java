@@ -21,9 +21,6 @@ public class SetSize extends JFrame {
         widthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-
-
-
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,7 +32,6 @@ public class SetSize extends JFrame {
                 }
             }
         });
-
 
 
         add(heightLabel);

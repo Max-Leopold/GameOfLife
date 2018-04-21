@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
-public class GameOfLife extends JFrame {
+public class GameOfLife extends JFrame implements MouseListener, MouseMotionListener {
 
     public int height;
     public int width;
@@ -19,9 +18,25 @@ public class GameOfLife extends JFrame {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Cell cell = new Cell();
+                cell.addMouseListener(this);
+                cell.addMouseMotionListener(this);
                 add(cell);
             }
         }
+
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu startMenu = new JMenu("Start/ Pause");
+
+        JMenuItem start = new JMenuItem("Start");
+        JMenuItem pause = new JMenuItem("Pause");
+
+        startMenu.add(start);
+        startMenu.add(pause);
+
+        menuBar.add(startMenu);
+
+        setJMenuBar(menuBar);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -49,7 +64,41 @@ public class GameOfLife extends JFrame {
     }
 
     public void startGame(GameOfLife gof){
-        gof.setSize(500, 500);
+        gof.setSize(height * 25, width * 25);
         gof.setVisible(true);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Cell cell = (Cell) e.getSource();
+        cell.changeState();
+        cell.update();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
     }
 }
