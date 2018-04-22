@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Serializable;
+import java.io.*;
 
 
 public class GameOfLife extends JFrame implements MouseListener, MouseMotionListener, ActionListener, Serializable {
@@ -10,6 +10,9 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
     public int width;
     private Cell[][] cells;
     Timer timer = new Timer(100, this);
+    public int generation;
+    JLabel generationLabel;
+    private static final long serialVersionUID = 1L;
 
     public GameOfLife(int height, int width) {
 
@@ -33,10 +36,15 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
             }
         }
 
+        generationLabel = new JLabel("Generation: " + generation);
+
+
+
         JMenuBar menuBar = new JMenuBar();
 
         JMenu startMenu = new JMenu("Start/ Pause");
         JMenu saveMenu = new JMenu("Load/ Save");
+        JMenu clearMenu = new JMenu("Clear");
 
         JMenuItem start = new JMenuItem("Start");
         JMenuItem pause = new JMenuItem("Pause");
@@ -44,6 +52,27 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
         JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
 
+        JMenuItem clear = new JMenuItem("Clear");
+
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                timer.stop();
+
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        cells[i][j].setLebendigeNachbarn(0);
+                        cells[i][j].setZustand(false);
+                        cells[i][j].setBackground(new Color(30, 30, 30));
+                    }
+                }
+
+                
+            }
+        });
+
+        clearMenu.add(clear);
 
         start.addActionListener(this);
         pause.addActionListener(new ActionListener() {
@@ -53,6 +82,9 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
             }
         });
 
+        save.addActionListener(this::saveGameButton);
+        load.addActionListener(this::loadGameButton);
+
         startMenu.add(start);
         startMenu.add(pause);
 
@@ -61,6 +93,7 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
 
         menuBar.add(startMenu);
         menuBar.add(saveMenu);
+        menuBar.add(clearMenu);
 
         setJMenuBar(menuBar);
 
@@ -235,9 +268,87 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
                 }
             }
 
+            generation++;
+            generationLabel.setText("Generation: " + generation);
+
         timer.start();
         }
+
+
+    public void saveGameButton(ActionEvent e){
+
+        try {
+            saveGame();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
     }
+
+    public void loadGameButton(ActionEvent e){
+        try {
+            loadGame();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void saveGame() throws IOException {
+
+        JFileChooser fileChooser = new JFileChooser(new File("c://"));
+
+        int returnVal = fileChooser.showSaveDialog(this);
+        File file;
+
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            file = fileChooser.getSelectedFile();
+
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    oos.writeBoolean(cells[i][j].isZustand());
+                    oos.writeInt(cells[i][j].getLebendigeNachbarn());
+                }
+            }
+
+
+        }
+    }
+
+    public void loadGame() throws IOException {
+
+        JFileChooser fileChooser = new JFileChooser(new File("c://"));
+
+        int returnVal = fileChooser.showOpenDialog(this);
+        File file;
+
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+
+            file = fileChooser.getSelectedFile();
+
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    cells[i][j].setZustand(ois.readBoolean());
+                    cells[i][j].setLebendigeNachbarn(ois.readInt());
+                }
+            }
+
+
+
+
+            Timer timer = new Timer(0, this::actionPerformed);
+            timer.start();
+            timer.setRepeats(false);
+        }
+    }
+
+}
 
 
 

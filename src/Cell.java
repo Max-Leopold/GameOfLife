@@ -35,6 +35,10 @@ public class Cell extends JPanel implements Serializable {
         zustand = !zustand;
     }
 
+    public void setZustand(boolean zustand) {
+        this.zustand = zustand;
+    }
+
     public void updateColor(){
 
         if(!zustand){
