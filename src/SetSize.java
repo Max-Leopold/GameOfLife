@@ -1,14 +1,17 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SetSize extends JFrame {
 
-    JButton submit = new JButton("Submit");
+    private static final long serialVersionUID = 1L;
+	JButton submit = new JButton("Submit");
     JTextField height = new JTextField(20);
     JTextField width = new JTextField(20);
     JLabel pane = new JLabel();
+
 
     public SetSize(){
 

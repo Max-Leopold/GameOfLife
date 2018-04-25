@@ -13,6 +13,7 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
     public int generation;
     JLabel generationLabel;
     private static final long serialVersionUID = 1L;
+    private boolean pressed;
 
     public GameOfLife(int height, int width) {
 
@@ -136,16 +137,23 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
         Cell cell = (Cell) e.getSource();
         cell.changeState();
         cell.updateColor();
+
+        pressed = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        pressed = false;
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        if(pressed){
+        Cell cell = (Cell) e.getSource();
+        cell.changeState();
+        cell.updateColor();
+        }
     }
 
     @Override
@@ -258,6 +266,8 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
                     } catch (ArrayIndexOutOfBoundsException ex) {
                         ex.printStackTrace();
                     }
+
+
                 }
             }
 
@@ -313,6 +323,8 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
                 }
             }
 
+            fos.close();
+            oos.close();
 
         }
     }
@@ -339,7 +351,8 @@ public class GameOfLife extends JFrame implements MouseListener, MouseMotionList
                 }
             }
 
-
+            fis.close();
+            ois.close();
 
 
             Timer timer = new Timer(0, this::actionPerformed);

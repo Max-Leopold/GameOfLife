@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 public class Cell extends JPanel implements Serializable {
 
-    private boolean zustand = false; //True = lebendig, False = tot;
+    private static final long serialVersionUID = 1L;
+	private boolean zustand = false; //True = lebendig, False = tot;
     private int lebendigeNachbarn;
 
     public Cell(){
 
-        setBackground(new Color(30, 30, 30));
+        setBackground(new Color(39, 39, 39));
 
-        setBorder(BorderFactory.createLineBorder(new Color(129, 129, 129)));
+        setBorder(BorderFactory.createLineBorder(new Color(54, 54, 54)));
 
     }
 
@@ -42,10 +43,10 @@ public class Cell extends JPanel implements Serializable {
     public void updateColor(){
 
         if(!zustand){
-            setBackground(new Color(30, 30, 30));
+            setBackground(new Color(39, 39, 39));
         }
         else{
-            setBackground(new Color(129, 129, 129));
+            setBackground(new Color(190, 190, 190));
         }
     }
 
