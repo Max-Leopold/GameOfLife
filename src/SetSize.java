@@ -24,13 +24,17 @@ public class SetSize extends JFrame {
         widthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-        submit.addActionListener(new ActionListener() {
+        submit.addActionListener(new ActionListener(){
+        
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    startGame(Integer.valueOf(height.getText()), Integer.valueOf(width.getText()));
-                }catch (NumberFormatException ea) {
-                    ea.printStackTrace();
+                    OuterFrame of = new OuterFrame();
+                    of.setSize(1920, 1080);
+                    of.setVisible(true);
+                    dispose();
+                }catch(NumberFormatException ex){
+                    ex.printStackTrace();
                     pane.setText("Keine Zahl eingegeben");
                 }
             }
@@ -46,10 +50,5 @@ public class SetSize extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-    }
-
-    public GameOfLife startGame(int height, int width){
-        GameOfLife gof = new GameOfLife(height, width);
-        return gof;
     }
 }
